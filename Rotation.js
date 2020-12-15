@@ -29,16 +29,31 @@
             for (let index = 0; index < l; index++) {
                 u.append("<div></div>");
             }
+            var d = u.children("div");
+            d.on("click", function () {
+                clearTimeout(t);
+                i = false;
+                s = $(this).index();
+                g();
+                t = setTimeout(function () {
+                    i = true;
+                }, 8000);
+            })
+            var g = function () {
+                e.eq(s).addClass("active").siblings().removeClass("active");
+                d.eq(s).addClass("active").siblings().removeClass("active");
+                m.css("left", w ? (-s * w + "px") : (-s * 100 + "%"));
+            }
             var i = true;
             if (!b) {
+                g();
                 setInterval(function () {
-                    console.log('i:', i);
                     if (i) {
                         g();
                         s++;
                         s == l && (s = 0);
                     }
-                }, c ?? 2000);
+                }, c ?? 5000);
             }
             r.append("<div class='Rotation-left'></div>");
             r.append("<div class='Rotation-right'></div>");
@@ -48,9 +63,9 @@
             left.on("click", function () {
                 clearTimeout(t);
                 i = false;
-                g();
                 s--;
                 s == -1 && (s = (l - 1));
+                g();
                 t = setTimeout(function () {
                     i = true;
                 }, 8000);
@@ -58,18 +73,13 @@
             right.on("click", function () {
                 clearTimeout(t);
                 i = false;
-                g();
                 s++;
                 s == l && (s = 0);
+                g();
                 t = setTimeout(function () {
                     i = true;
                 }, 8000);
             });
-            var g = function () {
-                e.eq(s).addClass("active").siblings().removeClass("active");
-                u.children("div").eq(s).addClass("active").siblings().removeClass("active");
-                m.css("left", w ? (-s * w + "px") : (-s * 100 + "%"));
-            }
             return this;
         },
         printLog: function () {
